@@ -1,12 +1,16 @@
 package com.example.bot;
 
+import com.example.command.Command;
 import com.example.config.CasinychBotConfig;
-import com.example.service.SendBotMessageServiceImpl;
 import com.example.command.CommandMap;
+import com.example.service.SendBotMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import com.example.command.TelegramMessageSender;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -14,13 +18,20 @@ import java.util.logging.Logger;
 @Component
 public class CasinychBot extends TelegramLongPollingBot {
     private final CasinychBotConfig botConfig;
-    public static String COMMAND_PREFIX = "/";
     private final CommandMap commandMap;
+    private final TelegramMessageSender messageSender;  // Добавляем
+    private final Logger logger = Logger.getLogger("casynychbot_logger");
 
     @Autowired
-    public CasinychBot(CasinychBotConfig botConfig){
+    public CasinychBot(CasinychBotConfig botConfig,
+                       CommandMap commandMap,
+                       TelegramMessageSender messageSender
+                       ){
+
         this.botConfig = botConfig;
-        commandMap = new CommandMap(new SendBotMessageServiceImpl(this));
+        this.commandMap = commandMap;
+        this.messageSender = messageSender;
+        this.messageSender.setBot(this);
     }
 
     @Override
@@ -39,17 +50,20 @@ public class CasinychBot extends TelegramLongPollingBot {
     }
 
     // прием сообщений
-    @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText().trim();
-            if (message.startsWith(COMMAND_PREFIX)) {
+
+            if (message.startsWith("/")) {
                 String commandIdentifier = message.split(" ")[0].toLowerCase();
-                System.out.println("This work");
-                commandMap.retrieveCommand(commandIdentifier).execute(update);
-            }
-            else {
-                commandMap.retrieveCommand(" NO").execute(update);
+                logger.info("got command: " + message);
+
+                Command command = commandMap.retrieveCommand(commandIdentifier);
+                if (command != null) {
+                    command.execute(update, messageSender);
+                } else {
+                    logger.warning("unknown command: " + commandIdentifier);
+                }
             }
         }
     }

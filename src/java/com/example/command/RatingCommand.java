@@ -5,10 +5,9 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
-public class HelpCommand implements Command{
-    private final String HELP_MESSAGE = "пока помощи не будэ";
+public class RatingCommand implements Command{
     @Override
     public void execute(Update update, TelegramMessageSender messageSender) {
-        messageSender.sendMessage(update.getMessage().getChatId().toString(), HELP_MESSAGE);
+        // TODO: вывод рейтинга пользователей (в зависимости от архитектуры БД)
     }
 }
