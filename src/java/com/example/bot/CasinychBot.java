@@ -3,13 +3,10 @@ package com.example.bot;
 import com.example.command.Command;
 import com.example.config.CasinychBotConfig;
 import com.example.command.CommandMap;
-import com.example.service.SendBotMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import com.example.command.TelegramMessageSender;
 
 import java.util.List;
@@ -19,7 +16,7 @@ import java.util.logging.Logger;
 public class CasinychBot extends TelegramLongPollingBot {
     private final CasinychBotConfig botConfig;
     private final CommandMap commandMap;
-    private final TelegramMessageSender messageSender;  // Добавляем
+    private final TelegramMessageSender messageSender;
     private final Logger logger = Logger.getLogger("casynychbot_logger");
 
     @Autowired
