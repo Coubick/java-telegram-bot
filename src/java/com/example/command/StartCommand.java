@@ -1,5 +1,6 @@
 package com.example.command;
 
+import com.example.service.BotSendMessageService;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -25,7 +26,7 @@ public class StartCommand implements Command {
                     "приятного пользования! и помни, 99% лудоманов сдаются перед выигрышем ;)";
 
     @Override
-    public void execute(Update update, TelegramMessageSender messageSender) {
+    public void execute(Update update, BotSendMessageService messageSender) {
         String chatId = update.getMessage().getChatId().toString();
         messageSender.sendMessage(chatId, START_MESSAGE);
     }

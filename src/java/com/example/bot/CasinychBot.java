@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import com.example.command.TelegramMessageSender;
+import com.example.service.BotSendMessageService;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -16,13 +16,13 @@ import java.util.logging.Logger;
 public class CasinychBot extends TelegramLongPollingBot {
     private final CasinychBotConfig botConfig;
     private final CommandMap commandMap;
-    private final TelegramMessageSender messageSender;
+    private final BotSendMessageService messageSender;
     private final Logger logger = Logger.getLogger("casynychbot_logger");
 
     @Autowired
     public CasinychBot(CasinychBotConfig botConfig,
                        CommandMap commandMap,
-                       TelegramMessageSender messageSender
+                       BotSendMessageService messageSender
                        ){
 
         this.botConfig = botConfig;

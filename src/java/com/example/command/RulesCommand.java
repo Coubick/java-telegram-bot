@@ -1,13 +1,13 @@
 package com.example.command;
 
-import com.example.service.SendBotMessageService;
+import com.example.service.BotSendMessageService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
 public class RulesCommand implements Command {
     @Override
-    public void execute(Update update, TelegramMessageSender messageSender) {
+    public void execute(Update update, BotSendMessageService messageSender) {
         // TODO: сделать реализацию вывода правил
         String chatId = update.getMessage().getChatId().toString();
         String text = "КАК ИГРАТЬ\uD83E\uDD14 \n" +
@@ -16,13 +16,13 @@ public class RulesCommand implements Command {
                 "‼ВАЖНО: как считаются стоимости спинов: \n" +
                 "(легчайше): сумма / количество спинов = стоимость одного спина. " +
                 "❗\uFE0FПри этом нельзя указать больше 30 спинов❗\uFE0F\n" +
-                "2. Допустим, ты справился с первым пунктом и депнул деньги с обедов." +
+                "2. Допустим, ты справился с первым пунктом и депнул деньги с обедов. " +
                 "Назад их не вернуть, поэтому тебе остается только отправлять эмодзи \uD83C\uDFB0!\n\n" +
 
                 "\uD83D\uDD25Самое интересное: комбинации\uD83D\uDD25\n\n" +
 
                 "7\uFE0F⃣ | 7\uFE0F⃣ | 7\uFE0F⃣  \n" +
-                "\uD83D\uDC49 X1000, если ты указал 1 спин и ВЕСЬ свой бюджет\ud83d \n" +
+                "\uD83D\uDC49 X1000, если ты указал 1 спин и ВЕСЬ свой бюджет\uD83D\uDC80 \n" +
                 "❗\uFE0FДалее идут награды за стоимость ОДНОГО спина, а не всего депа \n" +
                 "\uD83D\uDC49 X50, если ты указал 2 спина \n" +
                 "\uD83D\uDC49 X10, если ты указал 3-5 спинов \n" +
@@ -75,13 +75,20 @@ public class RulesCommand implements Command {
                 "\uD83D\uDC49 X0.7, если ты указал 1 спин и ВЕСЬ свой бюджет, иначе X0.9 (на один спин)\n\n" +
 
                 "BAR | (всё остальное) | (всё остальное) \n" +
-                "\uD83D\uDC49 X0.5, если ты указал 1 спин и ВЕСЬ свой бюджет, иначе X0.7 (на один спин)\n\n" +
+                "\uD83D\uDC49 X0.5, если ты указал 1 спин и ВЕСЬ свой бюджет, иначе X0.8 (на один спин)\n\n" +
 
                 "\uD83C\uDF4B | (всё остальное) | (всё остальное) \n" +
-                "\uD83D\uDC49 X0.35, если ты указал 1 спин и ВЕСЬ свой бюджет, иначе X0.55 (на один спин)\n\n" +
+                "\uD83D\uDC49 X0.4, если ты указал 1 спин и ВЕСЬ свой бюджет, иначе X0.7 (на один спин)\n\n" +
 
                 "\uD83C\uDF47 | (всё остальное) | (всё остальное) \n" +
-                "\uD83D\uDC49 X0.25, если ты указал 1 спин и ВЕСЬ свой бюджет, иначе X0.45 (на один спин)";
+                "\uD83D\uDC49 X0.35, если ты указал 1 спин и ВЕСЬ свой бюджет, иначе X0.65 (на один спин)\n\n" +
+                "Пример: \n" +
+                "Ты вводишь команду /dep 100 2\n" +
+                "Крутишь слот и тебе выпадает \uD83C\uDF47 | \uD83C\uDF47 | \uD83C\uDF47 \n" +
+                "=> Твой выигрыш: 50*1.5 - 50 = 25\n" +
+                "Крутишь второй слот и тебе выпадает \uD83C\uDF4B | \uD83C\uDF4B | BAR\n" +
+                "=> Твой выигрыш: 50*1.05 - 50 = 2.5\n" +
+                "Итоговый выигрыш с обоих прокрутов: 25 + 2.5 = 27.5";
         messageSender.sendMessage(chatId, text);
 
 

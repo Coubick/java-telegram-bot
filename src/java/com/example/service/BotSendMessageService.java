@@ -1,4 +1,4 @@
-package com.example.command;
+package com.example.service;
 
 import com.example.bot.CasinychBot;
 import org.springframework.stereotype.Component;
@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Component
-public class TelegramMessageSender {
+public class BotSendMessageService {
 
     private CasinychBot bot;
 
