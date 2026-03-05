@@ -10,7 +10,7 @@ public class RulesCommand implements Command {
     public void execute(Update update, BotSendMessageService messageSender) {
         // TODO: сделать реализацию вывода правил
         String chatId = update.getMessage().getChatId().toString();
-        String text = "КАК ИГРАТЬ\uD83E\uDD14 \n" +
+        String rulesMessage = "КАК ИГРАТЬ\uD83E\uDD14 \n" +
                 "1. Чтобы крутануть слоты, нужно написать команду: \n" +
                 "\t\\dep <сумма> <количество спинов>\n" +
                 "‼ВАЖНО: как считаются стоимости спинов: \n" +
@@ -89,7 +89,7 @@ public class RulesCommand implements Command {
                 "Крутишь второй слот и тебе выпадает \uD83C\uDF4B | \uD83C\uDF4B | BAR\n" +
                 "=> Твой выигрыш: 50*1.05 - 50 = 2.5\n" +
                 "Итоговый выигрыш с обоих прокрутов: 25 + 2.5 = 27.5";
-        messageSender.sendMessage(chatId, text);
+        messageSender.sendMessage(chatId, rulesMessage);
 
 
     }

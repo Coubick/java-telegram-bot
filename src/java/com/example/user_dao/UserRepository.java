@@ -8,4 +8,8 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findTop10ByOrderByCapitalDesc();
+
+    boolean existsByTelegramId(Long id);
+
+    boolean existsByNickname(String nickname);
 }

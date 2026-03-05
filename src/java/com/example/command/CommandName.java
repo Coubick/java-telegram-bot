@@ -3,10 +3,8 @@ package com.example.command;
 public enum CommandName {
 
     START("/start"),
-    HELP("/help"),
-    ENTRANCE("/entrance"),
+    REGISTER("/register"),
     DEP("/dep"),
-    RENAME("/rename"),
     STAT("/my_stat"),
     RATING("/rating"),
     RULES("/rules");

@@ -13,10 +13,8 @@ public class CommandMap {
     @Autowired
     public CommandMap(
                       StartCommand startCommand,
-                      HelpCommand helpCommand,
                       DepCommand depCommand,
-                      EntranceCommand entranceCommand,
-                      RenameCommand renameCommand,
+                      RegisterCommand registerCommand,
                       StatisticsCommand staticsCommand,
                       RatingCommand ratingCommand,
                       RulesCommand rulesCommand
@@ -24,10 +22,8 @@ public class CommandMap {
 
         commandMap = ImmutableMap.<String, Command>builder()
                 .put(START.getCommandName(), startCommand)
-                .put(HELP.getCommandName(), helpCommand)
-                .put(ENTRANCE.getCommandName(), entranceCommand)
+                .put(REGISTER.getCommandName(), registerCommand)
                 .put(DEP.getCommandName(), depCommand)
-                .put(RENAME.getCommandName(), renameCommand)
                 .put(STAT.getCommandName(), staticsCommand)
                 .put(RATING.getCommandName(), ratingCommand)
                 .put(RULES.getCommandName(), rulesCommand)
