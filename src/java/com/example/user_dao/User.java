@@ -1,16 +1,15 @@
 package com.example.user_dao;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
 
 @Entity
 @Data
+@Table(name = "users")
 public class User {
     @Column
+    @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long userId;
 
@@ -25,6 +24,9 @@ public class User {
 
     @Column
     private Integer spinsAvailable;
+
+    @Column
+    private String telegramId;
 
     // TODO: возможно, надо будет добавить currentWin для отслеживания текущего выигрыша
 }
