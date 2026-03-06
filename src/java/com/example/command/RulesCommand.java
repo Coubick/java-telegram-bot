@@ -8,7 +8,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class RulesCommand implements Command {
     @Override
     public void execute(Update update, BotSendMessageService messageSender) {
-        // TODO: сделать реализацию вывода правил
         String chatId = update.getMessage().getChatId().toString();
         String rulesMessage = "КАК ИГРАТЬ\uD83E\uDD14 \n" +
                 "1. Чтобы крутануть слоты, нужно написать команду: \n" +

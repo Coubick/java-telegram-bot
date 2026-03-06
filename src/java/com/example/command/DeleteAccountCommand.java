@@ -1,6 +1,7 @@
 package com.example.command;
 
 import com.example.service.BotSendMessageService;
+import com.example.service.UserService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -11,13 +12,24 @@ import java.util.List;
 
 @Component
 public class DeleteAccountCommand implements Command{
+    private final UserService userService;
+
+    public DeleteAccountCommand(UserService userService) {
+        this.userService = userService;
+    }
+
     @Override
     public void execute(Update update, BotSendMessageService messageSender) {
         String chatId = update.getMessage().getChatId().toString();
-        String deleteAccountMessage = "Точно хочешь удалить аккаунт? При удалении сгорят все твои деньги!";
-        InlineKeyboardMarkup inlineKeyboard = createInlineKeyboard();
-
-        messageSender.sendMessage(chatId, deleteAccountMessage, inlineKeyboard);
+        Long telegramId = update.getMessage().getFrom().getId();
+        if (userService.findByTelegramId(telegramId).isPresent()) {
+            String deleteAccountMessage = "Точно хочешь удалить аккаунт? При удалении сгорят все твои деньги!";
+            InlineKeyboardMarkup inlineKeyboard = createInlineKeyboard();
+            messageSender.sendMessage(chatId, deleteAccountMessage, inlineKeyboard);
+        } else {
+            String notFoundAccountMessage = "У тебя нет аккаунта";
+            messageSender.sendMessage(chatId, notFoundAccountMessage);
+        }
     }
 
     private InlineKeyboardMarkup createInlineKeyboard(){

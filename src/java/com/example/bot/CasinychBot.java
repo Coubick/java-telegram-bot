@@ -17,17 +17,19 @@ public class CasinychBot extends TelegramLongPollingBot {
     private final CasinychBotConfig botConfig;
     private final CommandMap commandMap;
     private final BotSendMessageService messageSender;
+    private final CallbackHandler callbackHandler;
     private final Logger logger = Logger.getLogger("casynychbot_logger");
 
     @Autowired
     public CasinychBot(CasinychBotConfig botConfig,
                        CommandMap commandMap,
-                       BotSendMessageService messageSender
-                       ){
+                       BotSendMessageService messageSender, CallbackHandler callbackHandler
+    ){
 
         this.botConfig = botConfig;
         this.commandMap = commandMap;
         this.messageSender = messageSender;
+        this.callbackHandler = callbackHandler;
         this.messageSender.setBot(this);
     }
 
@@ -48,6 +50,12 @@ public class CasinychBot extends TelegramLongPollingBot {
 
     // прием сообщений
     public void onUpdateReceived(Update update) {
+        if (update.hasCallbackQuery()) {
+            logger.info("Got callback: " + update.getCallbackQuery().getData());
+            callbackHandler.handle(update);
+            return;
+        }
+
         if (update.hasMessage() && update.getMessage().hasText()) {
             String messageText = update.getMessage().getText().trim();
 
@@ -60,14 +68,6 @@ public class CasinychBot extends TelegramLongPollingBot {
                     command.execute(update, messageSender);
                 } else {
                     logger.warning("unknown command: " + commandIdentifier);
-                }
-            } else if (update.hasCallbackQuery()) {
-                String callData = update.getCallbackQuery().getData();
-                if (callData.equals("YES")){
-                    // удалить акк
-                }
-                else if (callData.equals("NO")){
-                    // выслать сообщение об отмене удаления
                 }
             }
         }
