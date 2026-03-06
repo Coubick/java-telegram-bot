@@ -62,8 +62,13 @@ public class CasinychBot extends TelegramLongPollingBot {
                     logger.warning("unknown command: " + commandIdentifier);
                 }
             } else if (update.hasCallbackQuery()) {
-                // удалить акк
-                // выслать сообщение об отмене удаления
+                String callData = update.getCallbackQuery().getData();
+                if (callData.equals("YES")){
+                    // удалить акк
+                }
+                else if (callData.equals("NO")){
+                    // выслать сообщение об отмене удаления
+                }
             }
         }
     }
