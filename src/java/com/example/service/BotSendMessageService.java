@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.bot.CasinychBot;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Component
@@ -22,6 +23,23 @@ public class BotSendMessageService {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
         message.setText(text);
+
+        try {
+            bot.execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMessage(String chatId, String text, InlineKeyboardMarkup inlineKeyboardMarkup) {
+        if (bot == null) {
+            throw new IllegalStateException("Bot not initialized yet");
+        }
+
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId);
+        message.setText(text);
+        message.setReplyMarkup(inlineKeyboardMarkup);
 
         try {
             bot.execute(message);

@@ -14,6 +14,7 @@ public class CommandMap {
     public CommandMap(
                       StartCommand startCommand,
                       DepCommand depCommand,
+                      DeleteAccountCommand deleteAccountCommand,
                       RegisterCommand registerCommand,
                       StatisticsCommand staticsCommand,
                       RatingCommand ratingCommand,
@@ -24,6 +25,7 @@ public class CommandMap {
                 .put(START.getCommandName(), startCommand)
                 .put(REGISTER.getCommandName(), registerCommand)
                 .put(DEP.getCommandName(), depCommand)
+                .put(DELETE.getCommandName(), deleteAccountCommand)
                 .put(STAT.getCommandName(), staticsCommand)
                 .put(RATING.getCommandName(), ratingCommand)
                 .put(RULES.getCommandName(), rulesCommand)

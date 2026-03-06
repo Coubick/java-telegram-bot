@@ -6,8 +6,6 @@ import com.example.user_dao.UserRepository;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 

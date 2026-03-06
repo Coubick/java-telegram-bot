@@ -49,11 +49,11 @@ public class CasinychBot extends TelegramLongPollingBot {
     // прием сообщений
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String message = update.getMessage().getText().trim();
+            String messageText = update.getMessage().getText().trim();
 
-            if (message.startsWith("/")) {
-                String commandIdentifier = message.split(" ")[0].toLowerCase();
-                logger.info("got command: " + message);
+            if (messageText.startsWith("/")) {
+                String commandIdentifier = messageText.split(" ")[0].toLowerCase();
+                logger.info("got command: " + messageText);
 
                 Command command = commandMap.retrieveCommand(commandIdentifier);
                 if (command != null) {
@@ -61,6 +61,9 @@ public class CasinychBot extends TelegramLongPollingBot {
                 } else {
                     logger.warning("unknown command: " + commandIdentifier);
                 }
+            } else if (update.hasCallbackQuery()) {
+                // удалить акк
+                // выслать сообщение об отмене удаления
             }
         }
     }

@@ -5,6 +5,7 @@ public enum CommandName {
     START("/start"),
     REGISTER("/register"),
     DEP("/dep"),
+    DELETE("/delete"),
     STAT("/my_stat"),
     RATING("/rating"),
     RULES("/rules");
