@@ -1,4 +1,5 @@
 package com.example.user_dao;
+import com.example.game_session_dao.GameSession;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import java.util.Date;
 @Table(name = "users")
 @NoArgsConstructor
 public class User {
-    @Column (name = "user_id")
+    @Column (name = "id")
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long userId;
@@ -19,25 +20,24 @@ public class User {
     private String nickname;
 
     @Column (name = "capital")
-    private Integer capital;
+    private Double capital;
 
     @Column (name = "last_salary_date")
     private Date lastSalaryDate;
 
-    @Column (name = "spins_available")
-    private Integer spinsAvailable;
-
     @Column (name = "telegram_id", unique = true, nullable = false)
     private Long telegramId;
 
-    public User(String nickname, Integer capital, Date lastSalaryDate, Integer spinsAvailable, Long telegramId) {
+    @Column (name = "registration_date")
+    private Date registrationDate;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private GameSession gameSession;
+
+    public User(String nickname, Double capital, Date lastSalaryDate, Integer spinsAvailable, Long telegramId) {
         this.nickname = nickname;
         this.capital = capital;
         this.lastSalaryDate = lastSalaryDate;
-        this.spinsAvailable = spinsAvailable;
         this.telegramId = telegramId;
     }
-
-
-    // TODO: возможно, надо будет добавить currentWin для отслеживания текущего выигрыша
 }

@@ -9,6 +9,8 @@ public class DepCommand implements Command{
 
     @Override
     public void execute(Update update, BotSendMessageService messageSender) {
-        //TODO: логика добавления денег на баланс
+        //TODO: логика добавления денег на баланс и ожидания ботом депа
+
+
     }
 }

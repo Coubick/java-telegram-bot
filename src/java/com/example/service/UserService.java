@@ -22,7 +22,7 @@ public class UserService {
         Date last_salary_date = new Date(stamp.getTime());
         User newUser = new User(
                 nickname,
-                0,
+                0d,
                 last_salary_date,
                 0,
                 telegramId);
@@ -30,16 +30,10 @@ public class UserService {
         userRepository.save(newUser);
     }
 
-    public void deleteUser(User user) {
-        userRepository.delete(user);
-    }
-
     public void deleteUserByTelegramId(Long telegramId) {
         try {
             Optional<User> user = userRepository.findByTelegramId(telegramId);
-            if (user.isPresent()) {
-                userRepository.delete(user.get());
-            }
+            user.ifPresent(userRepository::delete);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,7 +63,7 @@ public class UserService {
 
     public String findTop10ByOrderByCapitalDescInString(){
         List<User> topUsers = userRepository.findTop10ByOrderByCapitalDesc();
-        if (topUsers.size() > 0) {
+        if (!topUsers.isEmpty()) {
             StringBuilder usersString = new StringBuilder();
             for (int i = 0; i < topUsers.size(); i++) {
                 User currentUser = topUsers.get(i);
@@ -85,5 +79,9 @@ public class UserService {
         } else {
             return "Деперы не найдены";
         }
+    }
+
+    public void updateUser(User user){
+        userRepository.save(user);
     }
 }
