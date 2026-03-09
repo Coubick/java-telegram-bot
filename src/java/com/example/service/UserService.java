@@ -71,7 +71,7 @@ public class UserService {
                         .append(i + 1)
                         .append(". ")
                         .append(currentUser.getNickname())
-                        .append(": ").append(currentUser.getCapital())
+                        .append(": ").append(String.format("%.2f", currentUser.getCapital()))
                         .append("\n");
             }
 

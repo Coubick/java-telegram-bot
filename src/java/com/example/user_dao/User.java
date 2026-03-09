@@ -3,6 +3,7 @@ import com.example.game_session_dao.GameSession;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -14,7 +15,7 @@ public class User {
     @Column (name = "id")
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
 
     @Column (name = "nickname", nullable = false)
     private String nickname;
@@ -32,6 +33,7 @@ public class User {
     private Date registrationDate;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private GameSession gameSession;
 
     public User(String nickname, Double capital, Date lastSalaryDate, Integer spinsAvailable, Long telegramId) {

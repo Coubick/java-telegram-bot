@@ -17,15 +17,25 @@ public class GameSessionService {
         this.gameSessionRepository = gameSessionRepository;
     }
 
-    public Integer getSpinsAvailable(Update update){
-        return gameSessionRepository.findByTelegramId(update.getMessage().getFrom().getId()).get().getSpinsAvailable();
-    }
-
     public Optional<GameSession> findByTelegramId(Long telegramId) {
         return gameSessionRepository.findByTelegramId(telegramId);
     }
 
     public void addGameSession(GameSession gameSession){
         gameSessionRepository.save(gameSession);
+    }
+
+    public GameSession saveGameSession(GameSession gameSession) {
+        return gameSessionRepository.save(gameSession);
+    }
+
+    public void delete(GameSession gameSession) {
+        if (gameSession != null && gameSession.getId() != null) {
+            if (gameSession.getUser() != null) {
+                gameSession.getUser().setGameSession(null);
+            }
+            
+            gameSessionRepository.delete(gameSession);
+        }
     }
 }

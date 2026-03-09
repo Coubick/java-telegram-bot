@@ -11,7 +11,7 @@ public class RulesCommand implements Command {
         String chatId = update.getMessage().getChatId().toString();
         String rulesMessage = "КАК ИГРАТЬ\uD83E\uDD14 \n" +
                 "1. Чтобы крутануть слоты, нужно написать команду: \n" +
-                "\t\\dep <сумма> <количество спинов>\n" +
+                "/dep <сумма> <количество спинов>\n" +
                 "‼ВАЖНО: как считаются стоимости спинов: \n" +
                 "(легчайше): сумма / количество спинов = стоимость одного спина. " +
                 "❗\uFE0FПри этом нельзя указать больше 30 спинов❗\uFE0F\n" +
