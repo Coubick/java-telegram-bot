@@ -36,10 +36,10 @@ public class DepositService {
             }
 
             User user = userOptional.get();
-            double usersCapital = user.getCapital();
+            double usersCapital = Math.round(user.getCapital() * 100.0) / 100.0; // чтобы было 2 знака после запятой
 
             if (usersCapital < depMoney) {
-                return "Опааа, а денег то у тебя не хватает на такой деп:). У тебя всего лишь: " + usersCapital;
+                return "Опааа, а денег то у тебя не хватает на такой деп :). У тебя всего лишь: " + usersCapital;
             }
 
             if (spinsAmount > 30) {
@@ -82,10 +82,9 @@ public class DepositService {
 
             // 4. Получаем актуальные данные для ответа
             int currentSpinsAvailable = gameSession.getSpinsAvailable();
-            double oneSpinPrice = depMoney / spinsAmount;
 
 
-            return "Отлично, ты депнул " + depMoney + " и взял " + spinsAmount + " спинов.\n" +
+            return "Отлично, ты депнул " + String.format("%.2f", depMoney) + " и взял " + spinsAmount + " спинов.\n" +
                     "Стоимость одного спина: " + String.format("%.2f", depMoney / spinsAmount) + "\n" +
                     "Твой текущий баланс: " + String.format("%.2f", newCapital) + "\n" +
                     "Спинов доступно: " + currentSpinsAvailable;
@@ -156,7 +155,7 @@ public class DepositService {
      */
     private void returnMoneyToCapital(Long telegramId, GameSession session) {
         userService.findByTelegramId(telegramId).ifPresent(user -> {
-            double newCapital = user.getCapital() + session.getCurrentSessionWin();
+            double newCapital = session.getDepositAmount() + session.getCurrentSessionWin();
             user.setCapital(newCapital);
             userService.updateUser(user);
         });
