@@ -3,7 +3,9 @@ package com.example.service;
 import com.example.user_dao.User;
 import com.example.user_dao.UserRepository;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
+import javax.swing.text.html.Option;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +24,7 @@ public class UserService {
         Date last_salary_date = new Date(stamp.getTime());
         User newUser = new User(
                 nickname,
-                0d,
+                1000d,
                 last_salary_date,
                 0,
                 telegramId);
@@ -83,5 +85,20 @@ public class UserService {
 
     public void updateUser(User user){
         userRepository.save(user);
+    }
+
+    public String collectStats(Long telegramId){
+        Optional<User> userOpt = userRepository.findByTelegramId(telegramId);
+        if (userOpt.isPresent()){
+            User user = userOpt.get();
+            String responseString = "Статистика для " + user.getNickname() +": \n" +
+                    "Дата регистрации: " + user.getRegistrationDate() + "\n" +
+                    "Баланс: " + user.getCapital() + "\n" +
+                    "Спинов прокручено: (WIP)\n" +
+                    "Депов сделано: (WIP)" +
+                    "Место в общем рейтинге: " + userRepository.findUserRank(user.getCapital());
+            return responseString;
+        }
+        return "У тебя нет аккаунта";
     }
 }

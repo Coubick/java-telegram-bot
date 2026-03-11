@@ -155,7 +155,7 @@ public class DepositService {
      */
     private void returnMoneyToCapital(Long telegramId, GameSession session) {
         userService.findByTelegramId(telegramId).ifPresent(user -> {
-            double newCapital = session.getDepositAmount() + session.getCurrentSessionWin();
+            double newCapital = session.getCurrentSessionWin() + user.getCapital() + session.getDepositAmount();
             user.setCapital(newCapital);
             userService.updateUser(user);
         });
