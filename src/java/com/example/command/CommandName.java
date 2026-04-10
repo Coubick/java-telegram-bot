@@ -8,7 +8,9 @@ public enum CommandName {
     DELETE("/delete"),
     STAT("/my_stat"),
     RATING("/rating"),
-    RULES("/rules");
+    RULES("/rules"),
+    REMOVE_ON("/remove_messages_on"),
+    REMOVE_OFF("/remove_messages_off");
 
     private final String commandName;
 

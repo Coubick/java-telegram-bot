@@ -18,7 +18,9 @@ public class CommandMap {
                       RegisterCommand registerCommand,
                       StatisticsCommand staticsCommand,
                       RatingCommand ratingCommand,
-                      RulesCommand rulesCommand
+                      RulesCommand rulesCommand,
+                      EnableRemoveMessageCommand enableRemoveMessageCommand,
+                      TurnOffRemoveMessageCommand turnOffRemoveMessageCommand
                       ) {
 
         commandMap = ImmutableMap.<String, Command>builder()
@@ -29,6 +31,8 @@ public class CommandMap {
                 .put(STAT.getCommandName(), staticsCommand)
                 .put(RATING.getCommandName(), ratingCommand)
                 .put(RULES.getCommandName(), rulesCommand)
+                .put(REMOVE_ON.getCommandName(), enableRemoveMessageCommand)
+                .put(REMOVE_OFF.getCommandName(), turnOffRemoveMessageCommand)
                 .build();
     }
 

@@ -24,6 +24,7 @@ public class CasinychBot extends TelegramLongPollingBot {
     private final SlotDecoder slotDecoder;
     private final DepositService depositService;
     private final Logger logger = Logger.getLogger("casynychbot_logger");
+    private boolean deleteMessageFlag = false;
 
     @Autowired
     public CasinychBot(CasinychBotConfig botConfig,
@@ -84,6 +85,10 @@ public class CasinychBot extends TelegramLongPollingBot {
 
                     Command command = commandMap.retrieveCommand(commandIdentifier);
                     if (command != null) {
+                        if (commandIdentifier.equals("/remove_messages_on"))
+                            deleteMessageFlag = true;
+                        else if (commandIdentifier.equals("/remove_message_off"))
+                            deleteMessageFlag = false;
                         command.execute(update, messageSender);
                     } else {
                         logger.warning("unknown command: " + commandIdentifier);
@@ -106,9 +111,13 @@ public class CasinychBot extends TelegramLongPollingBot {
         logger.info("Slot spin: " + symbols + " (value: " + dice.getValue() + ")");
 
 
-        String result = depositService.processSpinResult(telegramId, symbols) +
-                "\n\n Это сообщение будет удалено";
+        String result = depositService.processSpinResult(telegramId, symbols);
 
-        messageSender.sendMessageAndDelete(chatId, result, update.getMessage().getMessageId());
+        if (deleteMessageFlag) {
+            result += "\n\n Это сообщение будет удалено";
+            messageSender.sendMessageAndDelete(chatId, result, update.getMessage().getMessageId());
+        }
+        else
+            messageSender.sendMessage(chatId, result);
     }
 }
