@@ -5,7 +5,6 @@ import com.example.config.CasinychBotConfig;
 import com.example.command.CommandMap;
 import com.example.service.DepositService;
 import com.example.slot.SlotDecoder;
-import com.example.slot.SlotWinCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -24,13 +23,15 @@ public class CasinychBot extends TelegramLongPollingBot {
     private final CallbackHandler callbackHandler;
     private final SlotDecoder slotDecoder;
     private final DepositService depositService;
-    private final SlotWinCalculator winCalculator;
     private final Logger logger = Logger.getLogger("casynychbot_logger");
 
     @Autowired
     public CasinychBot(CasinychBotConfig botConfig,
                        CommandMap commandMap,
-                       BotSendMessageService messageSender, CallbackHandler callbackHandler, SlotDecoder slotDecoder, DepositService depositService, SlotWinCalculator winCalculator
+                       BotSendMessageService messageSender,
+                       CallbackHandler callbackHandler,
+                       SlotDecoder slotDecoder,
+                       DepositService depositService
     ){
 
         this.botConfig = botConfig;
@@ -39,7 +40,6 @@ public class CasinychBot extends TelegramLongPollingBot {
         this.callbackHandler = callbackHandler;
         this.slotDecoder = slotDecoder;
         this.depositService = depositService;
-        this.winCalculator = winCalculator;
         this.messageSender.setBot(this);
     }
 
@@ -102,12 +102,13 @@ public class CasinychBot extends TelegramLongPollingBot {
         Long telegramId = update.getMessage().getFrom().getId();
         String chatId = update.getMessage().getChatId().toString();
 
-        // Расшифровываем результат слота
         List<String> symbols = slotDecoder.decodeSlot(dice.getValue());
         logger.info("Slot spin: " + symbols + " (value: " + dice.getValue() + ")");
 
-        // Передаем в DepositService для расчета выигрыша
-        String result = depositService.processSpinResult(telegramId, symbols);
-        messageSender.sendMessage(chatId, result);
+
+        String result = depositService.processSpinResult(telegramId, symbols) +
+                "\n\n Это сообщение будет удалено";
+
+        messageSender.sendMessageAndDelete(chatId, result, update.getMessage().getMessageId());
     }
 }

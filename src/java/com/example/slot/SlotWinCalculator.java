@@ -133,7 +133,7 @@ public class SlotWinCalculator {
 
         public String formatMessage() {
             return String.format(
-                    "🎰 %s %s %s\n" +
+                    "%s | %s | %s\n" +
                             "Множитель: x%.2f\n" +
                             "Выигрыш: %+.2f",
                     symbols.get(0), symbols.get(1), symbols.get(2),

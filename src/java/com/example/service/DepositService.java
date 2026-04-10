@@ -131,7 +131,7 @@ public class DepositService {
         response.append(result.formatMessage()).append("\n\n");
 
         response.append(String.format("💰 Текущий выигрыш: %.2f\n", newCurrentWin));
-        response.append(String.format("🎲 Осталось прокрутов: %d", session.getSpinsAvailable()));
+        response.append(String.format("\uD83C\uDFB0 Осталось прокрутов: %d", session.getSpinsAvailable()));
 
         if (session.getSpinsAvailable() == 0) {
             double totalProfit = session.getCurrentSessionWin();
