@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.Date;
 
@@ -32,14 +35,18 @@ public class User {
     @Column (name = "registration_date")
     private Date registrationDate;
 
+    @ColumnDefault("0")
+    private Integer totalSpins = 0;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
     private GameSession gameSession;
 
-    public User(String nickname, Double capital, Date lastSalaryDate, Integer spinsAvailable, Long telegramId) {
+    public User(String nickname, Double capital, Date date, Long telegramId) {
         this.nickname = nickname;
         this.capital = capital;
-        this.lastSalaryDate = lastSalaryDate;
+        this.lastSalaryDate = date;
         this.telegramId = telegramId;
+        this.registrationDate = date;
     }
 }

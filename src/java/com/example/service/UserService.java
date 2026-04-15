@@ -6,7 +6,11 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import javax.swing.text.html.Option;
+import javax.xml.crypto.Data;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +25,11 @@ public class UserService {
 
     public void addUser(String nickname, Long telegramId) {
         Timestamp stamp = new Timestamp(System.currentTimeMillis());
-        Date last_salary_date = new Date(stamp.getTime());
+        Date date = new Date(stamp.getTime());
         User newUser = new User(
                 nickname,
-                1000d,
-                last_salary_date,
-                0,
+                10000d,
+                date,
                 telegramId);
 
         userRepository.save(newUser);
@@ -91,12 +94,14 @@ public class UserService {
         Optional<User> userOpt = userRepository.findByTelegramId(telegramId);
         if (userOpt.isPresent()){
             User user = userOpt.get();
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
             String responseString = "Статистика для " + user.getNickname() +": \n" +
-                    "Дата регистрации: " + user.getRegistrationDate() + "\n" +
+                    "Дата регистрации: " + dateFormat.format(user.getRegistrationDate()) + "\n" +
                     "Баланс: " + user.getCapital() + "\n" +
-                    "Спинов прокручено: (WIP)\n" +
-                    "Депов сделано: (WIP)" +
-                    "Место в общем рейтинге: " + userRepository.findUserRank(user.getCapital());
+                    "Слотов прокручено: " + user.getTotalSpins() + "\n" +
+                    "Место в общем рейтинге: " + userRepository.findUserRank(user.getCapital()).get();
             return responseString;
         }
         return "У тебя нет аккаунта";

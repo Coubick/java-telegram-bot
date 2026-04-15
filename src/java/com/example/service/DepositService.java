@@ -127,6 +127,9 @@ public class DepositService {
 
         gameSessionService.addGameSession(session);
 
+        User user = userService.findByTelegramId(telegramId).get();
+        user.setTotalSpins(user.getTotalSpins() + 1);
+
         StringBuilder response = new StringBuilder();
         response.append(result.formatMessage()).append("\n\n");
 
